@@ -1,0 +1,7 @@
+[package]
+name = "tinyshell"
+version = "0.1.0"
+authors = ["Igor Gueths <igor.gueths@protonmail.com>"]
+edition = "2018"
+
+[dependencies]
