@@ -1,14 +1,15 @@
+use std::io;
 use std::io::{stdin,stdout};
 use std::process::Command;
 use std::io::Write;
-fn main() {
+fn main() -> io::Result<()> {
 	loop {
 		println!(">");
-		stdout().flush();
+		stdout().flush()?;
 		let mut input = String::new();
-		 stdin().read_line(&mut input).unwrap();
+		 stdin().read_line(&mut input)?;
 		let command = input.trim();
-		let mut exec = Command::new(command).spawn().unwrap();
-		exec.wait();
+		let mut exec = Command::new(command).spawn()?;
+		exec.wait()?;
 	}
 }
