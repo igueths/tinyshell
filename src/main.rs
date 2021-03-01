@@ -1,7 +1,8 @@
 use std::io;
 use std::io::{stdin,stdout};
-use std::process::Command;
 use std::io::Write;
+use std::process::Command;
+use std::env;
 fn main() -> io::Result<()> {
 	loop {
 		println!(">");
@@ -13,7 +14,15 @@ fn main() -> io::Result<()> {
 let mut input_parts = input.trim().split_whitespace();
 let command = input_parts.next().unwrap();
 let args = input_parts;		
-let mut exec = Command::new(command).args(args).spawn()?;
+match command {
+	"cd" => {
+		let path = args.peekable().peek().map_or("/", |p| *p);
+		env::set_current_dir(&path).expect("No such file or directory");
+	},
+	command => {
+		let mut exec = Command::new(command).args(args).spawn()?;
 		exec.wait()?;
+	}
+}
 	}
 }
