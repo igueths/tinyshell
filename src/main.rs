@@ -17,7 +17,12 @@ let args = input_parts;
 match command {
 	"cd" => {
 		let path = args.peekable().peek().map_or("/", |p| *p);
-		env::set_current_dir(&path).expect("No such file or directory");
+		match env::set_current_dir(&path) {
+			Ok(_) => continue,
+			Err(_) => match io::ErrorKind::NotFound {
+				_ => println!("No such file or directory"),
+			}
+		}
 	},
 	command => {
 		let mut exec = Command::new(command).args(args).spawn()?;
